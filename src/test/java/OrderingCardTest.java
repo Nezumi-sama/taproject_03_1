@@ -4,13 +4,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -20,8 +18,7 @@ public class OrderingCardTest {
 
 
     @BeforeAll
-    static void configureWebDriver(){
-      //  System.setProperty("webdriver.chrome.driver", "./driver/win/chromedriver.exe");
+    static void configureWebDriver() {
         WebDriverManager.chromedriver().setup();
     }
 
@@ -35,6 +32,7 @@ public class OrderingCardTest {
         driver = new ChromeDriver(options);
 
     }
+
     @AfterEach
     void tearDown() {
         driver.quit();
@@ -42,12 +40,9 @@ public class OrderingCardTest {
     }
 
     @Test
-    void orderingCardTest(){
+    void orderingCardTest() {
         driver.get("http://localhost:9999/");
-/*        List<WebElement> inputFields = driver.findElements(By.className("input__control"));
-        inputFields.get(0).sendKeys("Иванов Иван");
-        inputFields.get(1).sendKeys("+79101234567");
-*/
+
         driver.findElement(By.cssSelector("[data-test-id=\"name\"] input")).sendKeys("Иванов Иван");//---
         driver.findElement(By.cssSelector("[data-test-id=\"phone\"] input")).sendKeys("+79101234567");//---
 
@@ -59,25 +54,21 @@ public class OrderingCardTest {
     }
 
 
-
     @Test
-    void nameEnglishTest(){
+    void nameEnglishTest() {
         driver.get("http://localhost:9999/");
         driver.findElement(By.cssSelector("[data-test-id=\"name\"] input")).sendKeys("Ivanov Ivan");
         driver.findElement(By.cssSelector("[data-test-id=\"phone\"] input")).sendKeys("+79101234567");
         driver.findElement(By.className("checkbox_size_m")).click();
         driver.findElement(By.className("button")).click();
 
-//        String actual = driver.findElement(By.className("input__sub")).getText();
-//        String actual = driver.findElement(By.cssSelector("[data-test-id=\"name\"] .input__sub")).getText();
         String actual = driver.findElement(By.cssSelector("[data-test-id='name'].input_invalid .input__sub")).getText();
         assertEquals("Имя и Фамилия указаные неверно. Допустимы только русские буквы, пробелы и дефисы.", actual.strip());
     }
-//    Селектор для поиска сообщения об ошибке в соответствии с рекомендациями для примера в тесте nameEnglishTest
-//    мог бы выглядеть так `[data-test-id='name'].inputinvalid .input__sub`,
+
 
     @Test
-    void nameNumberTest(){
+    void nameNumberTest() {
         driver.get("http://localhost:9999/");
         driver.findElement(By.cssSelector("[data-test-id=\"name\"] input")).sendKeys("555");
         driver.findElement(By.cssSelector("[data-test-id=\"phone\"] input")).sendKeys("+79101234567");
@@ -88,8 +79,9 @@ public class OrderingCardTest {
         String actual = driver.findElement(By.cssSelector("[data-test-id=\"name\"].input_invalid .input__sub")).getText();
         assertEquals("Имя и Фамилия указаные неверно. Допустимы только русские буквы, пробелы и дефисы.", actual.strip());
     }
+
     @Test
-    void nameSpecialCharactersTest(){
+    void nameSpecialCharactersTest() {
         driver.get("http://localhost:9999/");
         driver.findElement(By.cssSelector("[data-test-id=\"name\"] input")).sendKeys("&");
         driver.findElement(By.cssSelector("[data-test-id=\"phone\"] input")).sendKeys("+79101234567");
@@ -101,7 +93,7 @@ public class OrderingCardTest {
     }
 
     @Test
-    void nameEmptyTest(){
+    void nameEmptyTest() {
         driver.get("http://localhost:9999/");
         driver.findElement(By.cssSelector("[data-test-id=\"name\"] input")).sendKeys("");
         driver.findElement(By.cssSelector("[data-test-id=\"phone\"] input")).sendKeys("+79101234567");
@@ -113,10 +105,8 @@ public class OrderingCardTest {
     }
 
 
-
-
     @Test
-    void phoneRusCharactersTest(){
+    void phoneRusCharactersTest() {
         driver.get("http://localhost:9999/");
         driver.findElement(By.cssSelector("[data-test-id=\"name\"] input")).sendKeys("Иванов Иван");
         driver.findElement(By.cssSelector("[data-test-id=\"phone\"] input")).sendKeys("Иванов Иван");
@@ -128,7 +118,7 @@ public class OrderingCardTest {
     }
 
     @Test
-    void phoneEngCharactersTest(){
+    void phoneEngCharactersTest() {
         driver.get("http://localhost:9999/");
         driver.findElement(By.cssSelector("[data-test-id=\"name\"] input")).sendKeys("Иванов Иван");
         driver.findElement(By.cssSelector("[data-test-id=\"phone\"] input")).sendKeys("Ivan");
@@ -138,8 +128,9 @@ public class OrderingCardTest {
         String actual = driver.findElement(By.cssSelector("[data-test-id=\"phone\"].input_invalid .input__sub")).getText();
         assertEquals("Телефон указан неверно. Должно быть 11 цифр, например, +79012345678.", actual.strip());
     }
+
     @Test
-    void phoneSpecialCharactersTest(){
+    void phoneSpecialCharactersTest() {
         driver.get("http://localhost:9999/");
         driver.findElement(By.cssSelector("[data-test-id=\"name\"] input")).sendKeys("Иванов Иван");
         driver.findElement(By.cssSelector("[data-test-id=\"phone\"] input")).sendKeys("%");
@@ -149,8 +140,9 @@ public class OrderingCardTest {
         String actual = driver.findElement(By.cssSelector("[data-test-id=\"phone\"].input_invalid .input__sub")).getText();
         assertEquals("Телефон указан неверно. Должно быть 11 цифр, например, +79012345678.", actual.strip());
     }
+
     @Test
-    void phoneOnlyNumbersTest(){
+    void phoneOnlyNumbersTest() {
         driver.get("http://localhost:9999/");
         driver.findElement(By.cssSelector("[data-test-id=\"name\"] input")).sendKeys("Иванов Иван");
         driver.findElement(By.cssSelector("[data-test-id=\"phone\"] input")).sendKeys("79012345678");
@@ -162,7 +154,7 @@ public class OrderingCardTest {
     }
 
     @Test
-    void phoneManyNumbersTest(){
+    void phoneManyNumbersTest() {
         driver.get("http://localhost:9999/");
         driver.findElement(By.cssSelector("[data-test-id=\"name\"] input")).sendKeys("Иванов Иван");
         driver.findElement(By.cssSelector("[data-test-id=\"phone\"] input")).sendKeys("+790123456785555555555555555555555");
@@ -172,8 +164,9 @@ public class OrderingCardTest {
         String actual = driver.findElement(By.cssSelector("[data-test-id=\"phone\"].input_invalid .input__sub")).getText();
         assertEquals("Телефон указан неверно. Должно быть 11 цифр, например, +79012345678.", actual.strip());
     }
+
     @Test
-    void phoneFewNumbersTest(){
+    void phoneFewNumbersTest() {
         driver.get("http://localhost:9999/");
         driver.findElement(By.cssSelector("[data-test-id=\"name\"] input")).sendKeys("Иванов Иван");
         driver.findElement(By.cssSelector("[data-test-id=\"phone\"] input")).sendKeys("+79012345");
@@ -185,7 +178,7 @@ public class OrderingCardTest {
     }
 
     @Test
-    void phoneEmpryTest(){
+    void phoneEmpryTest() {
         driver.get("http://localhost:9999/");
         driver.findElement(By.cssSelector("[data-test-id=\"name\"] input")).sendKeys("Иванов Иван");
         driver.findElement(By.cssSelector("[data-test-id=\"phone\"] input")).sendKeys("");
@@ -197,7 +190,7 @@ public class OrderingCardTest {
     }
 
     @Test
-    void phoneCheckNoClickTest(){
+    void phoneCheckNoClickTest() {
         driver.get("http://localhost:9999/");
         driver.findElement(By.cssSelector("[data-test-id=\"name\"] input")).sendKeys("Иванов Иван");
         driver.findElement(By.cssSelector("[data-test-id=\"phone\"] input")).sendKeys("+79012345678");
