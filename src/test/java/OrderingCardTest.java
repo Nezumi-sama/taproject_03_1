@@ -8,6 +8,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
+
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -18,8 +20,10 @@ public class OrderingCardTest {
 
     @BeforeAll
     static void configureWebDriver(){
-        System.setProperty("webdriver.chrome.driver", "./driver/win/chromedriver.exe");
+      //  System.setProperty("webdriver.chrome.driver", "./driver/win/chromedriver.exe");
+        WebDriverManager.chromedriver().setup();
     }
+
 
     @BeforeEach
     void createBrowser() {
